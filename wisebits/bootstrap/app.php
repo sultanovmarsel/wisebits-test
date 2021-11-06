@@ -106,10 +106,13 @@ $app->configure('app');
 |
 */
 
+require $app->basePath() . '/bootstrap/bootstrap.php';
+
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
+    'prefix' => 'api/v1',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__.'/../routes/api.php';
 });
 
 return $app;
