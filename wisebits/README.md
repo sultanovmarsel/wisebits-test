@@ -1,24 +1,30 @@
-# Lumen PHP Framework
+Работа реализована в виде api методов.
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
+После поднятия площадки, будут доступны следующие методы:
+1. GET api/v1/users - будут отданы все пользователи
+2. GET api/v1/users/{userId} - будет отдан конкретный пользователь
+3. DELETE api/v1/users/{userId} - будет удален указанный пользователь
+4. POST api/v1/users - будет создан пользователь. В боди необходимо передать name, email и по желанию notes
+5. PUT api/v1/users/{userId} - будет обновлен указанный пользователь. В боди можно передать name, email и notes
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+Роуты описаны в файле wisebits/routes/api.php
 
-## Official Documentation
+Контроллеры wisebits/app/Http/Controllers/UserController.php
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+Валидация сделана с помощью стандартных средств Laravel. Слой валидаторов находится в папке wisebits/app/Http/Requests/User
+Для валидации плохих доменов сделано кастомное правило валидации, находится в wisebits/app/Rules/EmailBlackListRule.php
 
-## Contributing
+Бизнес логика вынесена в сервисы. Папка сервисов и их интерфейсов в wisebits/components
+Ди контейнеры описываются в файле wisebits/bootstrap/bootstrap.php
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Сделано два сервиса: UserService и LogService. Изначально планировал сделать еще один - для журналирования,
+но отказался, в виду ограничения по времени (журналирование происходит с помощью LogService)
 
-## Security Vulnerabilities
+В UserService сделано два слоя - самого сервиса и репозитория. В целом сервис изолирован от фреймворка,
+о Ларавел знает только слой репозитория (используется активная моделька Ларавелевская), то есть при желании 
+смены фреймворка или хранилища будет достаточно реализовать интерфейс репозитория и все, ничего не должно сломаться. 
+Работа непосредственно с ORM вынесена в трейт wisebits/components/infrastructure/common/traits/OrmRepositoryTrait.php
+на случай если появится другой сервис с похожей структурой, некий фасад над Ларавелевским билдером
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Тесты планировал делать, но к сожалению, больше не могу уделить на задание время
 
-## License
-
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

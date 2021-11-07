@@ -55,14 +55,26 @@ class OrmUserRepository implements UserRepositoryInterface
         return $result;
     }
 
+    /**
+     * @param UserInterface $user
+     * @return UserInterface|null
+     */
     public function save(UserInterface $user): ?UserInterface
     {
-        // TODO: Implement save() method.
+        $ormModel = $this->saveOrmModelByData($user->toArray());
+        if (!$ormModel instanceof OrmUser) {
+            return null;
+        }
+
+        return $this->createModel($ormModel->toArray());
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function delete(int $id): bool
     {
-        // TODO: Implement delete() method.
+        return $this->ormDelete($id);
     }
-
 }

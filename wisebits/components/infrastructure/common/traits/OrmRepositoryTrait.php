@@ -64,7 +64,7 @@ trait OrmRepositoryTrait
      * @param $key
      * @return bool
      */
-    protected function delete(int $key): bool
+    protected function ormDelete(int $key): bool
     {
         return (bool) $this->getQuery()
             ->whereKey($key)
@@ -74,6 +74,8 @@ trait OrmRepositoryTrait
     /**
      * @param array $data
      * @return OrmModel
+     *
+     * @throws \RuntimeException
      */
     protected function saveOrmModelByData(array $data): OrmModel
     {

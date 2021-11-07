@@ -55,11 +55,17 @@ class UserService implements UserServiceInterface
      */
     public function save(array $data): ?UserInterface
     {
-        // TODO: Implement save() method.
+        $user = $this->userRepository->createModel($data);
+
+        return $this->userRepository->save($user);
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function delete(int $id): bool
     {
-        // TODO: Implement delete() method.
+        return $this->userRepository->delete($id);
     }
 }

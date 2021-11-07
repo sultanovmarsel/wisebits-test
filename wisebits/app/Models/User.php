@@ -15,6 +15,8 @@ class User extends BaseModel
     public const FIELD_DELETED = 'deleted';
     public const FIELD_NOTES = 'notes';
 
+    public $timestamps = false;
+
     /** @var string */
     protected $table = 'users';
 
