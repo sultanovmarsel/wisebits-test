@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User as OrmUser;
 use Illuminate\Contracts\Container\Container;
 use Laravel\Lumen\Application;
 use Wisebits\application\userService\repository\OrmUserRepository;
@@ -19,7 +20,7 @@ $app->bind(UserServiceInterface::class, function (Container $container) {
 });
 
 $app->bind(UserRepositoryInterface::class, function (Container $container) {
-    return new OrmUserRepository();
+    return new OrmUserRepository(new OrmUser());
 });
 
 $app->bind(LogServiceInterface::class, function (Container $container) {

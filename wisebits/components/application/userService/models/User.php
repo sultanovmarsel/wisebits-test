@@ -17,8 +17,8 @@ class User implements UserInterface
         'id',
         'name',
         'email',
-        'active',
-        'createdAt',
+        'deleted',
+        'created',
         'notes',
     ];
 
@@ -40,17 +40,25 @@ class User implements UserInterface
         return isset($this->data['email']) ? (string) $this->data['email'] : null;
     }
 
+    /** @return \DateTime|null */
+    public function getDeleted(): ?\DateTime
+    {
+        return !empty($this->data['deleted']) && $this->data['deleted'] instanceof \DateTime
+            ? $this->data['deleted']
+            : null;
+    }
+
     /** @return bool */
     public function isActive(): bool
     {
-        return !empty($this->data['active']);
+        return !empty($this->data['deleted']);
     }
 
     /** @return \DateTime|null */
-    public function getCreatedAt(): ?\DateTime
+    public function getCreated(): ?\DateTime
     {
-        return !empty($this->data['createdAt']) && $this->data['createdAt'] instanceof \DateTime
-            ? $this->data['createdAt']
+        return !empty($this->data['created']) && $this->data['created'] instanceof \DateTime
+            ? $this->data['created']
             : null;
     }
 

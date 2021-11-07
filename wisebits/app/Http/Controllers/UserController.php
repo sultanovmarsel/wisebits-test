@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Wisebits\interfaces\application\userService\models\UserInterface;
 use Wisebits\interfaces\application\userService\UserServiceInterface;
 
 /**
@@ -10,11 +13,27 @@ use Wisebits\interfaces\application\userService\UserServiceInterface;
  */
 class UserController extends BaseApiController
 {
-
-    public function index(UserServiceInterface $userService)
+    /**
+     * @param UserServiceInterface $userService
+     * @return JsonResponse
+     */
+    public function index(UserServiceInterface $userService): JsonResponse
     {
-        dd($userService->getById(1));
-        //dd('aaa');
-        //return $this->sendResponse($balanceService->getByNodeId($request->getNodeId(), $request->getCurrentUserId()));
+        return $this->sendResponse($userService->getAll());
+    }
+
+    /**
+     * @param int $userId
+     * @param UserServiceInterface $userService
+     * @return JsonResponse
+     */
+    public function show(int $userId, UserServiceInterface $userService): JsonResponse
+    {
+        $user = $userService->getById($userId);
+        if ($user instanceof UserInterface) {
+            return $this->sendResponse($user);
+        }
+
+        return $this->sendErrorByCode(Response::HTTP_NOT_FOUND);
     }
 }

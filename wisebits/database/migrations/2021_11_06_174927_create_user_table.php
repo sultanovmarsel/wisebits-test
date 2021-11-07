@@ -29,6 +29,7 @@ class CreateUserTable extends Migration
 
         DB::statement('create unique index users_email_uindex on users (email);');
         DB::statement('create unique index users_name_uindex on users (name);');
+        DB::statement('ALTER TABLE users MODIFY created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
     }
 
     /**

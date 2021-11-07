@@ -23,7 +23,10 @@ interface UserInterface extends ModelInterface
     public function isActive(): bool;
 
     /** @return \DateTime|null */
-    public function getCreatedAt(): ?\DateTime;
+    public function getDeleted(): ?\DateTime;
+
+    /** @return \DateTime|null */
+    public function getCreated(): ?\DateTime;
 
     /** @return string|null */
     public function getNotes(): ?string;

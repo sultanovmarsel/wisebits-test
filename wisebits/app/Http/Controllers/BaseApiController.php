@@ -56,4 +56,16 @@ class BaseApiController extends Controller
 
         return \response()->json($result, $code);
     }
+
+    /**
+     * @param int $code
+     * @return JsonResponse
+     */
+    protected function sendErrorByCode($code = Response::HTTP_INTERNAL_SERVER_ERROR): JsonResponse
+    {
+        return $this->sendError(
+            Response::$statusTexts[$code],
+            $code
+        );
+    }
 }

@@ -2,32 +2,45 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
-
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+/**
+ * Class User
+ * @package App\Models
+ */
+class User extends BaseModel
 {
-    use Authenticatable, Authorizable, HasFactory;
+    public const FIELD_ID = 'id';
+    public const FIELD_NAME = 'name';
+    public const FIELD_EMAIL = 'email';
+    public const FIELD_CREATED = 'created';
+    public const FIELD_DELETED = 'deleted';
+    public const FIELD_NOTES = 'notes';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    /** @var string */
+    protected $table = 'users';
+
+    /** @var string[] */
     protected $fillable = [
-        'name', 'email',
+        self::FIELD_ID,
+        self::FIELD_NAME,
+        self::FIELD_EMAIL,
+        self::FIELD_NOTES,
     ];
 
     /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
+     * @var string[]
      */
-    protected $hidden = [
-        'password',
+    protected $dates = [
+        self::FIELD_CREATED,
+        self::FIELD_DELETED,
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $casts = [
+        self::FIELD_ID => 'integer',
+        self::FIELD_NAME => 'string',
+        self::FIELD_EMAIL => 'string',
+        self::FIELD_NOTES => 'string',
     ];
 }
