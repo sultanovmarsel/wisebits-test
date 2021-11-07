@@ -61,17 +61,6 @@ trait OrmRepositoryTrait
     }
 
     /**
-     * @param $key
-     * @return bool
-     */
-    protected function ormDelete(int $key): bool
-    {
-        return (bool) $this->getQuery()
-            ->whereKey($key)
-            ->delete();
-    }
-
-    /**
      * @param array $data
      * @return OrmModel
      *

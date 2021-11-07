@@ -3,6 +3,7 @@
 namespace Wisebits\application\userService\repository;
 
 use App\Models\User as OrmUser;
+use Carbon\Carbon;
 use Wisebits\application\userService\models\User;
 use Wisebits\infrastructure\common\traits\OrmRepositoryTrait;
 use Wisebits\interfaces\application\userService\models\UserInterface;
@@ -40,6 +41,8 @@ class OrmUserRepository implements UserRepositoryInterface
     }
 
     /**
+     * @todo убрать удаленные записи
+     *
      * @return array
      */
     public function find(): array
@@ -75,6 +78,17 @@ class OrmUserRepository implements UserRepositoryInterface
      */
     public function delete(int $id): bool
     {
-        return $this->ormDelete($id);
+        if (empty($id)) {
+            return false;
+        }
+
+        $user = $this->findOrmModelById($id);
+        if (empty($user) || !$user instanceof OrmUser) {
+            return false;
+        }
+
+        return (bool) $this->getQuery()
+            ->whereKey($id)
+            ->update([OrmUser::FIELD_DELETED => Carbon::now()]);
     }
 }

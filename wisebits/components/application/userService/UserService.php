@@ -56,8 +56,11 @@ class UserService implements UserServiceInterface
     public function save(array $data): ?UserInterface
     {
         $user = $this->userRepository->createModel($data);
+        $result = $this->userRepository->save($user);
 
-        return $this->userRepository->save($user);
+        $this->log(UserLoggerFormatter::save($user, $result));
+
+        return $result;
     }
 
     /**
@@ -66,6 +69,20 @@ class UserService implements UserServiceInterface
      */
     public function delete(int $id): bool
     {
-        return $this->userRepository->delete($id);
+        $result = $this->userRepository->delete($id);
+        $this->log(UserLoggerFormatter::delete($id, $result));
+
+        return $result;
+    }
+
+    /**
+     * @todo: конечно если делать журналирование отдельно и необходимо гарантировать запись в журнал
+     * необходимо делать иначе, с использованием транзакций, очередей и тд
+     *
+     * @param string $log
+     */
+    protected function log(string $log): void
+    {
+        $this->logService->log($log);
     }
 }

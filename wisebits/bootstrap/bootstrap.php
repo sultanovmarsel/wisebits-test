@@ -15,14 +15,18 @@ use Wisebits\interfaces\infrastructure\logService\LogServiceInterface;
 $app->bind(UserServiceInterface::class, function (Container $container) {
     return new UserService(
         $container->make(UserRepositoryInterface::class),
-        $container->make(LogServiceInterface::class)
+        $container->make('journalLogger')
     );
 });
 
-$app->bind(UserRepositoryInterface::class, function (Container $container) {
+$app->bind(UserRepositoryInterface::class, function () {
     return new OrmUserRepository(new OrmUser());
 });
 
-$app->bind(LogServiceInterface::class, function (Container $container) {
-    return new LogService();
+$app->bind('systemLogger', function () {
+    return new LogService(storage_path('logs/logs.log'));
+});
+
+$app->bind('journalLogger', function () {
+    return new LogService(storage_path('logs/journal.log'));
 });
